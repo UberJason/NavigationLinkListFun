@@ -28,6 +28,16 @@ struct ContentView: View {
                         .frame(minHeight: 400)
                 }
                 Section("Items") {
+                    //****************************************
+                    ForEach(viewModel.items) { item in
+                        Text(item.name)
+                    }
+                    //****************************************
+                    
+                    //****************************************
+                    // If this NavigationLink is *above* the ForEach items,
+                    // the stack never pops itself off.
+                    // If it's *below* the ForEach items, the stack pops itself off once the number of items added pushes the NavigationLink off-screen to some point where the underlying UITableViewCell probably isn't getting dequeued yet.
                     NavigationLink(
                         isActive: $viewModel.linkActive,
                         destination: {
@@ -41,10 +51,7 @@ struct ContentView: View {
                             }
                         }
                     )
-                    ForEach(viewModel.items) { item in
-                        Text(item.name)
-                    }
-                    
+                    //****************************************
                 }
             }
             .navigationTitle("Navigation Woes")
